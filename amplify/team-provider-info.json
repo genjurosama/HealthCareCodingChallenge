@@ -1,0 +1,30 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-healthcarecodingchal-dev-154405-authRole",
+      "UnauthRoleArn": "arn:aws:iam::016506135080:role/amplify-healthcarecodingchal-dev-154405-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::016506135080:role/amplify-healthcarecodingchal-dev-154405-authRole",
+      "Region": "eu-west-3",
+      "DeploymentBucketName": "amplify-healthcarecodingchal-dev-154405-deployment",
+      "UnauthRoleName": "amplify-healthcarecodingchal-dev-154405-unauthRole",
+      "StackName": "amplify-healthcarecodingchal-dev-154405",
+      "StackId": "arn:aws:cloudformation:eu-west-3:016506135080:stack/amplify-healthcarecodingchal-dev-154405/9bb663c0-56f2-11ee-9592-0a6a98dc6c94",
+      "AmplifyAppId": "d1n69zygzgumpa"
+    },
+    "categories": {
+      "auth": {
+        "healthcarecodingchal2d072e86": {}
+      },
+      "function": {
+        "patientsFunction": {
+          "deploymentBucketName": "amplify-healthcarecodingchal-dev-154405-deployment",
+          "s3Key": "amplify-builds/patientsFunction-5671584e585572552b72-build.zip"
+        }
+      },
+      "api": {
+        "notesofpatients": {},
+        "healthcarecodingchal": {}
+      }
+    }
+  }
+}
