@@ -2,19 +2,36 @@ import React, { useState } from 'react';
 import { API, graphqlOperation } from 'aws-amplify';
 import {createPatientNote} from '../graphql/mutations';
 import { ToastContainer, toast } from 'react-toastify';
+import { useFormValidation } from './UseFormValidation'; // Import your custom hook
 import 'react-toastify/dist/ReactToastify.css';
-import { useNavigate } from "react-router-dom";
+
 
 function NoteCreation() {
-  const navigate = useNavigate();  
   const [formData, setFormData] = useState({ patientName: '', date: '', medicalObservations: '' });
 
+
+  // Use the useFormValidation hook to handle form validation
+  const validationErrors = useFormValidation(
+    formData.patientName,
+    formData.date,
+    formData.medicalObservations
+  );
+
   const handleCreateNote = async () => {
+    const { patientName, date, medicalObservations } = formData;
+    console.log('form data:',formData)
+    console.log(validationErrors)
+    // Check if there are validation errors before proceeding
+    if (validationErrors.length > 0) {
+      validationErrors.forEach((error) => {
+        toast.error(error);
+      });
+      return;
+    }
+
     try {
-      console.log(formData)
       await API.graphql(graphqlOperation(createPatientNote,{input:formData}));
       setFormData({ patientName: '', date: '', medicalObservations: '' });
-      navigate("/");
       toast.success('Note created successfully.'); // Display a success toast
     } catch (error) {
       console.error('Error creating note:', error);
@@ -24,6 +41,7 @@ function NoteCreation() {
 
   return (
     <div>
+      <ToastContainer />
       <h2>Create Patient Note</h2>
       <form>
         {/* Form fields for creating a new patient note */}

@@ -1,98 +1,111 @@
 import React, { useState } from 'react';
 import Modal from 'react-modal';
 import { API, graphqlOperation } from 'aws-amplify';
-import { updatePatientNote } from '../graphql/mutations'; 
+import { updatePatientNote } from '../graphql/mutations';
+import { ToastContainer, toast } from 'react-toastify';
+import { useFormValidation } from './UseFormValidation'; // Import your custom hook
 
+function EditPatientModal({ isOpen, onRequestClose, noteData, fetchNotes }) {
+  const [updatedNoteData, setUpdatedNoteData] = useState({
+    id: noteData.id,
+    patientName: noteData.patientName,
+    date: noteData.date,
+    medicalObservations: noteData.medicalObservations,
+  });
 
-function EditPatientModal({ isOpen, onRequestClose, noteData,fetchNotes }) {
-    const [updatedNoteData, setUpdatedNoteData] = useState({
-      // Initialize with existing patient data
-      id: noteData.id,
-      patientName: noteData.patientName,
-      date: noteData.date,
-      medicalObservations: noteData.medicalObservations,
+  const customModalStyles = {
+    content: {
+      width: '50%',
+      height: 'auto',
+      margin: 'auto',
+    },
+  };
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setUpdatedNoteData({
+      ...updatedNoteData,
+      [name]: value,
     });
+  };
 
-    const customModalStyles = {
-      content: {
-        width: '50%',  // Adjust the width as needed
-        height: 'auto', // Adjust the height as needed
-        margin: 'auto', // Center the modal horizontally
-      },
-    };
-  
-  
-    const handleInputChange = (event) => {
-      const { name, value } = event.target;
-      setUpdatedNoteData({
-        ...updatedNoteData,
-        [name]: value,
+  // Use the useFormValidation hook to handle form validation
+  const validationErrors = useFormValidation(
+    updatedNoteData.patientName,
+    updatedNoteData.date,
+    updatedNoteData.medicalObservations
+  );
+
+  const handleUpdatePatientNote = async () => {
+    // Check if there are validation errors before proceeding
+    if (validationErrors.length > 0) {
+      validationErrors.forEach((error) => {
+        toast.error(error);
       });
-    };
-  
-    const handleUpdatePatientNote = async () => {
-      try {
-        // Perform the GraphQL mutation to update the patient note data
-        const response = await API.graphql(
-          graphqlOperation(updatePatientNote, { input: updatedNoteData })
-        );
-        fetchNotes();  
-        // Close the modal
-        onRequestClose();
-      } catch (error) {
-        console.error('Error updating patient:', error);
-      }
-    };
-  
-    return (
-      <Modal
-        style={customModalStyles}
-        isOpen={isOpen}
-        onRequestClose={onRequestClose}
-        contentLabel="Edit Patient Note Modal"
-      >
-        <h2>Edit Patient Information</h2>
-        <form>
-          <div>
-            <label htmlFor="patientName">Full Name</label>
-            <input
-              type="text"
-              id="patientName"
-              name="patientName"
-              value={updatedNoteData.patientName}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div>
-            <label htmlFor="date">Date</label>
-            <input
-              type="date"
-              id="date"
-              name="date"
-              value={updatedNoteData.date}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div>
-            <label htmlFor="medicalObservations">Medical Observations</label>
-            <textarea
-              id="medicalObservations"
-              name="medicalObservations"
-              value={updatedNoteData.medicalObservations}
-              onChange={handleInputChange}
-            />
-          </div>
-          <button type="button" onClick={handleUpdatePatientNote}>
-            Update
-          </button>
+      return;
+    }
 
-          <button type="button" onClick={onRequestClose}>
-            Close
-          </button>
+    try {
+      const response = await API.graphql(
+        graphqlOperation(updatePatientNote, { input: updatedNoteData })
+      );
+      toast.success('Note Updated Successfully');
+      fetchNotes();
+      onRequestClose();
+    } catch (error) {
+      console.error('Error updating patient:', error);
+    }
+  };
 
-        </form>
-      </Modal>
-    );
-  }
-  
-  export default EditPatientModal;
+  return (
+    <Modal
+      style={customModalStyles}
+      isOpen={isOpen}
+      onRequestClose={onRequestClose}
+      contentLabel="Edit Patient Note Modal"
+    >
+      <ToastContainer />
+      <h2>Edit Patient Information</h2>
+      <form>
+        <div>
+          <label htmlFor="patientName">Full Name</label>
+          <input
+            type="text"
+            id="patientName"
+            name="patientName"
+            value={updatedNoteData.patientName}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div>
+          <label htmlFor="date">Date</label>
+          <input
+            type="date"
+            id="date"
+            name="date"
+            value={updatedNoteData.date}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div>
+          <label htmlFor="medicalObservations">Medical Observations</label>
+          <textarea
+            id="medicalObservations"
+            name="medicalObservations"
+            value={updatedNoteData.medicalObservations}
+            onChange={handleInputChange}
+          />
+        </div>
+        <button type="button" onClick={handleUpdatePatientNote}>
+          Update
+        </button>
+
+        <button type="button" onClick={onRequestClose}>
+          Close
+        </button>
+      </form>
+    </Modal>
+  );
+}
+
+export default EditPatientModal;

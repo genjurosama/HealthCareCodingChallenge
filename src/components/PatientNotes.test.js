@@ -58,7 +58,7 @@ describe('PatientNotes', () => {
             {
               id: '1',
               patientName: 'John Doe',
-              date: '2023-09-19',
+              date: '19-09-2023',
               medicalObservations: 'Sample note 1',
             },
           ],

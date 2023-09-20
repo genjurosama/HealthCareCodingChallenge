@@ -61,7 +61,7 @@ function PatientNotes() {
     <div>
       <h2>Patient Notes</h2>
       
-      <ToastContainer /> {/* Add the ToastContainer component */}
+      <ToastContainer /> 
       <table className='patient-notes-table'>
   <thead>
     <tr>
