@@ -77,3 +77,50 @@ textarea {
 .text-center {
   text-align: center;
 }
+
+
+/* Style for the patient notes list */
+ul.patient-notes-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Style for each patient note item */
+ul.patient-notes-list li {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background-color 0.2s ease-in-out;
+}
+
+/* Style for the last patient note item (no border at the bottom) */
+ul.patient-notes-list li:last-child {
+  border-bottom: none;
+}
+
+/* Style for the patient note content */
+ul.patient-notes-list li .note-content {
+  flex: 1;
+}
+
+/* Style for the edit button */
+ul.patient-notes-list li .edit-button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+/* Hover effect for the edit button */
+ul.patient-notes-list li .edit-button:hover {
+  background-color: #0056b3;
+}

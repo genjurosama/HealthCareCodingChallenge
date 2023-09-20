@@ -1,14 +1,10 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom';
-import SignUp from './SignUp';
-import Login from './Login';
-import Logout from './Logout';
 import PatientNotes from './PatientNotes'; // Import the PatientNotes component
 import NoteCreation from './NoteCreation'; // Import the NotesCreation component
 import { Auth, Amplify } from 'aws-amplify';
 import awsconfig from './aws-exports';
 import { Authenticator } from '@aws-amplify/ui-react';
-import { useNavigate } from "react-router-dom";
 import '@aws-amplify/ui-react/styles.css';
 import './App.css';
 
@@ -40,7 +36,7 @@ function App() {
           <nav className="custom-nav">
             <ul className="custom-nav-links">
               <li>
-                <a href="/patientNotes">Patient Notes</a>
+                <a href="/">Patient Notes</a>
               </li>
               <li>
                 <a href="/noteCreation">Create Patient Note</a>
@@ -53,7 +49,7 @@ function App() {
             </button>
           </div>
           <Routes>
-            <Route path="/patientNotes" element={<PatientNotes />} />
+            <Route path="/" element={<PatientNotes />} />
             <Route path="/noteCreation" element={<NoteCreation />} />
             {/* Define other routes as needed */}
           </Routes>

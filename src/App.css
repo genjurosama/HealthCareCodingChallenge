@@ -87,3 +87,11 @@
 .logout-button:hover {
   color: #0056b3;
 }
+
+
+.centered {
+  display: flex;
+  justify-content: center; /* Horizontal centering */
+  align-items: center; /* Vertical centering */
+  height: 100vh; /* Adjust as needed to center vertically within the viewport */
+}
