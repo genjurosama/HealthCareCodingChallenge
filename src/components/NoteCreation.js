@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { API, graphqlOperation } from 'aws-amplify';
-import {createPatientNote} from './graphql/mutations';
+import {createPatientNote} from '../graphql/mutations';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from "react-router-dom";
@@ -14,7 +14,7 @@ function NoteCreation() {
       console.log(formData)
       await API.graphql(graphqlOperation(createPatientNote,{input:formData}));
       setFormData({ patientName: '', date: '', medicalObservations: '' });
-      navigate("/patientNotes");
+      navigate("/");
       toast.success('Note created successfully.'); // Display a success toast
     } catch (error) {
       console.error('Error creating note:', error);
@@ -30,7 +30,7 @@ function NoteCreation() {
         <input type="text" placeholder="Patient Full Name" value={formData.patientName} onChange={(e) => setFormData({ ...formData, patientName: e.target.value })} />
         <input type="date" placeholder="Date" value={formData.date} onChange={(e) => setFormData({ ...formData, date: e.target.value })} />
         <textarea placeholder="Medical Observations" value={formData.medicalObservations} onChange={(e) => setFormData({ ...formData, medicalObservations: e.target.value })} />
-        <button type="button" onClick={handleCreateNote}>
+        <button className="button-container" type="button" onClick={handleCreateNote}>
           Create Note
         </button>
       </form>

@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { API, graphqlOperation } from 'aws-amplify';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import {createPatientNote,updatePatientNote,deletePatientNote} from './graphql/mutations'
-import {listPatientNotes} from './graphql/queries'
+import {createPatientNote,updatePatientNote,deletePatientNote} from '../graphql/mutations'
+import {listPatientNotes} from '../graphql/queries'
 import EditPatientModal from './EditPatientModal'
 
 function PatientNotes() {
@@ -12,6 +12,7 @@ function PatientNotes() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedNote, setSelectedNote] = useState(null);
   
+
 
 
     // Function to open the modal with patient data
@@ -31,7 +32,6 @@ function PatientNotes() {
     try {
       // Fetch the list of patient notes from your REST API using Amplify's API category
       const response = await API.graphql(graphqlOperation(listPatientNotes));
-      console.log(response)
       setNotes(response); // Assuming your API returns an array of patient notes
     } catch (error) {
       console.error('Error fetching notes:', error);
@@ -48,6 +48,7 @@ function PatientNotes() {
     console.log('note id:',noteId)
     try {
       await API.graphql(graphqlOperation(deletePatientNote, {input:{id:noteId}}));
+      toast.success('Note Deleted successfully.'); // Display a success toast
       fetchNotes(); // Refetch the notes after deleting
     } catch (error) {
       console.error('Error deleting note:', error);
@@ -81,7 +82,7 @@ function PatientNotes() {
             <button className='edit-button' onClick={() => openModal(note)}>
               Update
             </button>
-            <button className='edit-button' onClick={() => handleDeleteNote(note.id)}>Delete</button>
+            <button className='edit-button' data-testid={`delete-button-${note.id}`} onClick={() => handleDeleteNote(note.id)}>Delete</button>
           </td>
         </tr>
       ))

@@ -37,7 +37,5 @@ describe('NoteCreation Component', () => {
     expect(getByText('Create Note')).toBeInTheDocument();
   });
 
-  
 
-  // You can add more test cases for error scenarios and edge cases
 });

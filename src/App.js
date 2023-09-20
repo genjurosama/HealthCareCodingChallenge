@@ -1,12 +1,11 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom';
-import PatientNotes from './PatientNotes'; // Import the PatientNotes component
-import NoteCreation from './NoteCreation'; // Import the NotesCreation component
+import PatientNotes from './components/PatientNotes'; // Import the PatientNotes component
+import NoteCreation from './components/NoteCreation'; // Import the NotesCreation component
 import { Auth, Amplify } from 'aws-amplify';
 import awsconfig from './aws-exports';
 import { Authenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
-import './App.css';
 
 
 Amplify.configure(awsconfig);
@@ -30,7 +29,7 @@ function App() {
     <Router>
       <div className="App">
         <header>
-          <h1>Your App Name</h1>
+          <h1 className='app-title'>HealthCare Coding Challenge</h1>
           <Authenticator>
           <div className="main-display">
           <nav className="custom-nav">
