@@ -44,30 +44,6 @@ function PatientNotes() {
     fetchNotes();
   }, []);
 
-  const handleCreateNote = async () => {
-    try {
-      console.log(formData)
-      await API.graphql(graphqlOperation(createPatientNote,{input:formData}));
-      setFormData({ patientName: '', date: '', medicalObservations: '' });
-      fetchNotes(); // Refetch the notes after creating a new one
-      toast.success('Note created successfully.'); // Display a success toast
-    } catch (error) {
-      console.error('Error creating note:', error);
-      toast.error('Error creating note. Please try again.'); // Display an error toast
-    }
-  };
-
-
-  const handleUpdateNote = async (noteId) => {
-    try {
-      await API.graphql(graphqlOperation(updatePatientNote,{input:noteId}));
-      setFormData({ patientName: '', date: '', medicalObservations: '' });
-      fetchNotes(); // Refetch the notes after updating
-    } catch (error) {
-      console.error('Error updating note:', error);
-    }
-  };
-
   const handleDeleteNote = async (noteId) => {
     console.log('note id:',noteId)
     try {
@@ -85,41 +61,37 @@ function PatientNotes() {
       <h2>Patient Notes</h2>
       
       <ToastContainer /> {/* Add the ToastContainer component */}
-
-      <form>
-        <input
-          type="text"
-          placeholder="Patient Full Name"
-          value={formData.patientName}
-          onChange={(e) => setFormData({ ...formData, patientName: e.target.value })}
-        />
-        <input
-          type="date"
-          placeholder="Date"
-          value={formData.date}
-          onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-        />
-        <textarea
-          placeholder="Medical Observations"
-          value={formData.medicalObservations}
-          onChange={(e) => setFormData({ ...formData, medicalObservations: e.target.value })}
-        />
-        <button type="button" onClick={handleCreateNote}>
-          Create Note
-        </button>
-      </form>
-      <ul>
-        {notes ? notes.data.listPatientNotes.items.map((note) => (
-          <li key={note.id}>
-            <div>
-              <strong>{note.patientName}</strong> ({note.date})
-            </div>
-            <div>{note.medicalObservations}</div>
-            <button onClick={() => openModal(note)}>Update</button>
-            <button onClick={() => handleDeleteNote(note.id)}>Delete</button>
-          </li>
-        )) : 'no data'}
-      </ul>
+      <table className='patient-notes-table'>
+  <thead>
+    <tr>
+      <th>Patient Name</th>
+      <th>Date</th>
+      <th>Medical Observations</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {notes ? (
+      notes.data.listPatientNotes.items.map((note) => (
+        <tr key={note.id}>
+          <td>{note.patientName}</td>
+          <td>{note.date}</td>
+          <td>{note.medicalObservations}</td>
+          <td>
+            <button className='edit-button' onClick={() => openModal(note)}>
+              Update
+            </button>
+            <button className='edit-button' onClick={() => handleDeleteNote(note.id)}>Delete</button>
+          </td>
+        </tr>
+      ))
+    ) : (
+      <tr>
+        <td colSpan="4">No data</td>
+      </tr>
+    )}
+  </tbody>
+</table>
 
       {selectedNote && (
         <EditPatientModal
