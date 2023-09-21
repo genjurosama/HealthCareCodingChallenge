@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { API, graphqlOperation } from 'aws-amplify';
 import {createPatientNote} from '../graphql/mutations';
 import { ToastContainer, toast } from 'react-toastify';
-import { useFormValidation } from './UseFormValidation'; // Import your custom hook
+import { useFormValidation } from './UseFormValidation'; // Import custom hook
 import 'react-toastify/dist/ReactToastify.css';
 
 
@@ -19,8 +19,6 @@ function NoteCreation() {
 
   const handleCreateNote = async () => {
     const { patientName, date, medicalObservations } = formData;
-    console.log('form data:',formData)
-    console.log(validationErrors)
     // Check if there are validation errors before proceeding
     if (validationErrors.length > 0) {
       validationErrors.forEach((error) => {

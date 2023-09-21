@@ -3,7 +3,7 @@ import Modal from 'react-modal';
 import { API, graphqlOperation } from 'aws-amplify';
 import { updatePatientNote } from '../graphql/mutations';
 import { ToastContainer, toast } from 'react-toastify';
-import { useFormValidation } from './UseFormValidation'; // Import your custom hook
+import { useFormValidation } from './UseFormValidation'; // Import custom hook
 
 function EditPatientModal({ isOpen, onRequestClose, noteData, fetchNotes }) {
   const [updatedNoteData, setUpdatedNoteData] = useState({

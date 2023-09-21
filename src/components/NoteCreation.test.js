@@ -14,7 +14,7 @@ describe('NoteCreation', () => {
         createPatientNote: {
           id: '1',
           patientName: 'John Doe',
-          date: '2023-09-19', // Change date format back to YYYY-MM-DD
+          date: '2023-09-19', 
           medicalObservations: 'Sample note',
         },
       },
@@ -28,7 +28,7 @@ describe('NoteCreation', () => {
       target: { value: 'John Doe' },
     });
     fireEvent.change(getByPlaceholderText('Date'), {
-      target: { value: '2023-09-19' }, // Change date format back to YYYY-MM-DD
+      target: { value: '2023-09-19' }, 
     });
     fireEvent.change(getByPlaceholderText('Medical Observations'), {
       target: { value: 'Sample note' },
@@ -46,7 +46,7 @@ describe('NoteCreation', () => {
         graphqlOperation(expect.stringContaining('CreatePatientNote'), {
           input: {
             patientName: 'John Doe',
-            date: '2023-09-19', // Change date format back to YYYY-MM-DD
+            date: '2023-09-19', 
             medicalObservations: 'Sample note',
           },
         })

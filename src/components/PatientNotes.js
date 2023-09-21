@@ -43,7 +43,6 @@ function PatientNotes() {
   }, []);
 
   const handleDeleteNote = async (noteId) => {
-    console.log('note id:',noteId)
     try {
       await API.graphql(graphqlOperation(deletePatientNote, {input:{id:noteId}}));
       toast.success('Note Deleted successfully.'); // Display a success toast
