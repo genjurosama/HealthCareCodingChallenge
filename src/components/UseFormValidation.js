@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 
+//Custom Hook for form validation
+
 export function useFormValidation(patientName, date, medicalObservations) {
   const [validationErrors, setValidationErrors] = useState([]);
 

@@ -2,18 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { API, graphqlOperation } from 'aws-amplify';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import {createPatientNote,updatePatientNote,deletePatientNote} from '../graphql/mutations'
-import {listPatientNotes} from '../graphql/queries'
-import EditPatientModal from './EditPatientModal'
+import { createPatientNote, updatePatientNote, deletePatientNote } from '../graphql/mutations';
+import { listPatientNotes } from '../graphql/queries';
+import EditPatientModal from './EditPatientModal';
+import PatientNoteRow from './PatientNoteRow'; // Import the child component
 
 function PatientNotes() {
-  const [notes, setNotes] = useState({data:{listPatientNotes : {items:[]}}});
+  const [notes, setNotes] = useState({ data: { listPatientNotes: { items: [] } } });
   const [formData, setFormData] = useState({ patientName: '', date: '', medicalObservations: '' });
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedNote, setSelectedNote] = useState(null);
-  
-
-
 
     // Function to open the modal with patient data
     const openModal = (note) => {
@@ -55,44 +53,38 @@ function PatientNotes() {
     }
   };
 
-  // Other functions (handleUpdateNote, handleDeleteNote) with similar toast notifications
 
   return (
     <div>
       <h2>Patient Notes</h2>
-      
-      <ToastContainer /> 
+
+      <ToastContainer />
       <table className='patient-notes-table'>
-  <thead>
-    <tr>
-      <th>Patient Name</th>
-      <th>Date</th>
-      <th>Medical Observations</th>
-      <th>Action</th>
-    </tr>
-  </thead>
-  <tbody>
-    {notes ? (
-      notes.data.listPatientNotes.items.map((note) => (
-        <tr key={note.id}>
-          <td>{note.patientName}</td>
-          <td>{note.date}</td>
-          <td>{note.medicalObservations}</td>
-          <td>
-            <button className='edit-button' onClick={() => openModal(note)}>
-              Update
-            </button>
-            <button className='edit-button' data-testid={`delete-button-${note.id}`} onClick={() => handleDeleteNote(note.id)}>Delete</button>
-          </td>
-        </tr>
-      ))
-    ) : (
-      <tr>
-        <td colSpan="4">No data</td>
-      </tr>
-    )}
-  </tbody>
-</table>
+        <thead>
+          <tr>
+            <th>Patient Name</th>
+            <th>Date</th>
+            <th>Medical Observations</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {notes ? (
+            notes.data.listPatientNotes.items.map((note) => (
+              <PatientNoteRow
+                key={note.id}
+                note={note}
+                openModal={openModal}
+                handleDeleteNote={handleDeleteNote}
+              />
+            ))
+          ) : (
+            <tr>
+              <td colSpan="4">No data</td>
+            </tr>
+          )}
+        </tbody>
+      </table>
 
       {selectedNote && (
         <EditPatientModal
@@ -103,9 +95,6 @@ function PatientNotes() {
         />
       )}
 
-      
-      {/* Rest of the component content */}
-      
     </div>
   );
 }
